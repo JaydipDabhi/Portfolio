@@ -206,3 +206,14 @@ function custom_enqueue_styles_and_scripts()
 	wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.js', array(), null, true);
 }
 add_action('wp_enqueue_scripts', 'custom_enqueue_styles_and_scripts');
+
+add_filter('show_admin_bar', '__return_false');
+
+function add_custom_body_class($classes)
+{
+	if (is_front_page()) {
+		$classes[] = 'index-page';
+	}
+	return $classes;
+}
+add_filter('body_class', 'add_custom_body_class');
