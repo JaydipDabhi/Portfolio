@@ -29,23 +29,30 @@
 
 		<header id="header" class="header dark-background d-flex flex-column">
 			<i class="header-toggle d-xl-none bi bi-list"></i>
-
+			<?php
+			$user = wp_get_current_user();
+			$fname = $user->first_name;
+			$lname = $user->last_name;
+			$display_name = esc_html(trim($fname . ' ' . $lname));
+			$profile_image = get_field('profile_image', 'option');
+			$default_image = get_template_directory_uri() . '/assets/img/my-profile-img.jpg';
+			$image = $profile_image['url'] ? $profile_image['url'] : $default_image;
+			$image_alt = $profile_image['alt'] ? $profile_image['alt'] : 'Profile Image';
+			?>
 			<div class="profile-img">
-				<img src="<?php echo get_template_directory_uri(); ?>/assets/img/my-profile-img.jpg" alt="" class="img-fluid rounded-circle">
+				<img src="<?php echo $image; ?>" alt="<?php echo esc_attr($image_alt); ?>" class="img-fluid rounded-circle">
 			</div>
 
-			<a href="index.html" class="logo d-flex align-items-center justify-content-center">
-				<!-- Uncomment the line below if you also wish to use an image logo -->
-				<!-- <img src="<?php echo get_template_directory_uri(); ?>/assets/img/logo.png" alt=""> -->
-				<h1 class="sitename">Alex Smith</h1>
+			<a href="<?php esc_url(home_url('/')); ?>" class="logo d-flex align-items-center justify-content-center">
+				<h1 class="sitename"><?php echo $display_name; ?></h1>
 			</a>
 
 			<div class="social-links text-center">
-				<a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-				<a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-				<a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-				<a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
-				<a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+				<a href="javascript:void(0);" class="twitter"><i class="bi bi-twitter-x"></i></a>
+				<a href="javascript:void(0);" class="facebook"><i class="bi bi-facebook"></i></a>
+				<a href="javascript:void(0);" class="instagram"><i class="bi bi-instagram"></i></a>
+				<a href="javascript:void(0);" class="google-plus"><i class="bi bi-skype"></i></a>
+				<a href="javascript:void(0);" class="linkedin"><i class="bi bi-linkedin"></i></a>
 			</div>
 
 			<nav id="navmenu" class="navmenu">
