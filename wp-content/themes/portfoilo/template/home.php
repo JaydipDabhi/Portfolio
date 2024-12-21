@@ -8,13 +8,43 @@ get_header();
 
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
+        <?php
+        $user = wp_get_current_user();
+        $fname = $user->first_name;
+        $lname = $user->last_name;
+        $display_name = esc_html(trim($fname . ' ' . $lname));
+        $banner_image = get_field('banner_image');
+        $default_image = get_template_directory_uri() . '/assets/img/hero-bg.jpg';
+        $bg_image = $banner_image['url'] ? $banner_image['url'] : $default_image;
+        $bg_image_alt = $banner_image['alt'] ? $banner_image['alt'] : 'Profile Image';
+        ?>
 
-        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/hero-bg.jpg" alt="" data-aos="fade-in" class="">
+        <img src="<?php echo $bg_image; ?>" alt="<?php echo esc_attr($bg_image_alt); ?>" data-aos="fade-in" class="">
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <h2>Alex Smith</h2>
-            <p>I'm <span class="typed" data-typed-items="Designer, Developer, Freelancer, Photographer">Designer</span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span></p>
+            <h2><?php echo $display_name; ?></h2>
+            <p>I'm
+                <span class="typed" data-typed-items="<?php
+                                                        $role_titles = [];
+                                                        if (have_rows('roles')) {
+                                                            foreach (get_field('roles') as $role) {
+                                                                $role_title = $role['role_title'];
+                                                                if ($role_title) {
+                                                                    $role_titles[] = $role_title;
+                                                                }
+                                                            }
+                                                            echo implode(', ', $role_titles);
+                                                        }
+                                                        ?>"></span>
+                <span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span>
+            </p>
         </div>
+
+
+        <!-- <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <h2><?php echo $display_name; ?></h2>
+            <p>I'm <span class="typed" data-typed-items="Designer, Developer, Freelancer, Photographer">Designer</span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span></p>
+        </div> -->
 
     </section><!-- /Hero Section -->
 
